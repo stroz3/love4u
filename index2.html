@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сладкие сны - Визитка</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+    --heart-color: #FF69B4; 
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif; /* Новый шрифт: Montserrat — читабельный sans-serif, красивый и современный */
+    background: linear-gradient(to bottom right, #FFB6C1, #ADD8E6); 
+    color: #4B0082; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    text-align: center;
+    max-width: 800px;
+    padding: 20px;
+}
+
+h1 {
+    font-family: 'Montserrat', sans-serif; /* Новый шрифт для заголовков */
+    font-weight: 600; /* Полужирный для акцента */
+    font-size: 3em;
+    margin-bottom: 20px;
+    background: #ff70b5;
+    background: -webkit-linear-gradient(40deg,rgba(255, 112, 181, 1) 0%, rgba(83, 232, 237, 1) 80%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3); /* Усиленная тень для лучшей видимости на фоне */
+}
+
+.page {
+    display: none;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.page.active {
+    display: block;
+    opacity: 1;
+}
+
+button {
+    background: linear-gradient(to right, #FFB6C1, #ADD8E6); /* Градиент розово-синий для кнопок */
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    color: #9370DB; /* Светлее лавандовый цвет для текста, чтобы "немножко сливался" с фоном, но оставался читаемым */
+    cursor: pointer;
+    border-radius: 10px;
+    margin-top: 20px;
+    transition: background-color 0.3s, transform 0.3s;
+    font-family: 'Montserrat', sans-serif; /* Новый шрифт для кнопок */
+}
+
+button:hover {
+    background: linear-gradient(to right, #FFB6C1, #ADD8E6); /* Тот же градиент, но с scale для hover */
+    transform: scale(1.05);
+    color: #4B0082; /* На hover — более тёмный цвет для лучшего контраста */
+}
+
+/* Сердце */
+.heart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 120px 0 70px;
+}
+
+.heart {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    background-color: var(--heart-color);
+    transform: rotate(-45deg);
+    animation: heartbeat 2s ease-out infinite;
+    box-shadow: 0 0 40px rgba(255, 107, 157, 0.6);
+    border-radius: 10px;
+}
+
+.heart:before,
+.heart:after {
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background-color: var(--heart-color);
+    border-radius: 50%;
+}
+
+.heart:before {
+    top: -100px;
+    left: 0;
+}
+
+.heart:after {
+    top: 0;
+    left: 100px;
+}
+
+@keyframes heartbeat {
+    0% { transform: rotate(-45deg) scale(1); }
+    20% { transform: rotate(-45deg) scale(1.04); }
+    50% { transform: rotate(-45deg) scale(1.08); }
+    100% { transform: rotate(-45deg) scale(1); }
+}
+
+
+@keyframes shake {
+    0% { transform: rotate(-45deg) translate(0, 0); }
+    10% { transform: rotate(-45deg) translate(-5px, 5px); }
+    20% { transform: rotate(-45deg) translate(5px, -5px); }
+    30% { transform: rotate(-45deg) translate(-5px, 5px); }
+    40% { transform: rotate(-45deg) translate(5px, -5px); }
+    50% { transform: rotate(-45deg) translate(0, 0); }
+}
+
+.heart.shake {
+    animation: shake 0.5s;
+}
+
+.question {
+    position: absolute;
+    top: 35%;
+    left: 65%;
+    transform: translate(-50%, -50%) rotate(45deg); 
+    text-align: center;
+    width: 200px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: opacity 0.5s ease;
+}
+
+.question span {
+    font-family: 'Montserrat', sans-serif; /* Новый шрифт для текста вопросов — более читабельный */
+    font-size: 1.4em;
+    color: #FFFFFF; /* Белый для контраста */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* Лёгкая тень */
+    margin-bottom: 10px;
+    animation: fadeIn 0.5s ease-in; /* Анимация появления */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.answer-input {
+    width: 140px;
+    padding: 5px;
+    font-size: 1em;
+    border: 2px solid transparent; /* Прозрачная ободка по умолчанию */
+    border-radius: 10px; /* Закругления */
+    background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачный пастельный */
+    color: #4B0082;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif; /* Новый шрифт для поля ввода */
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+.answer-input:focus {
+    background-color: rgba(255, 255, 255, 1);
+    outline: none;
+}
+
+.answer-input.invalid {
+    border-color: #FF4500;
+    background-color: rgba(255, 182, 193, 0.8); 
+}
+
+
+.cats {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; 
+    overflow: hidden;
+}
+
+.cat {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.2; 
+    filter: blur(10px); 
+    animation: float 10s infinite ease-in-out;
+}
+
+.cat1 {
+    width: 150px;
+    height: 100px;
+    background: #ADD8E6; 
+    left: 10%;
+    top: 20%;
+    animation-duration: 12s;
+    animation-delay: 0s;
+}
+
+.cat2 {
+    width: 200px;
+    height: 150px;
+    background: #FFB6C1; 
+    left: 40%;
+    top: 50%;
+    animation-duration: 14s;
+    animation-delay: 2s;
+}
+
+.cat3 {
+    width: 120px;
+    height: 80px;
+    background: #98FB98; 
+    left: 70%;
+    top: 30%;
+    animation-duration: 16s;
+    animation-delay: 4s;
+}
+
+@keyframes float {
+    0% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(5deg); }
+    100% { transform: translateY(0) rotate(0deg); }
+}
+
+
+.compliments {
+    margin: 20px 0;
+}
+
+.compliment-card {
+    background-color: rgba(255, 255, 255, 0.7); 
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.compliment-card:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.compliment-card h2 {
+    font-family: 'Montserrat', sans-serif; /* Новый шрифт для заголовков комплиментов */
+    font-weight: 600;
+    color: #FF69B4;
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.compliment-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    opacity: 0;
+}
+
+.compliment-content.open {
+    max-height: 200px; 
+    opacity: 1;
+}
+
+.compliment-content p {
+    margin: 10px 0 0;
+    color: #4B0082;
+    font-size: 1.1em;
+    font-family: 'Montserrat', sans-serif; /* Новый шрифт для текста комплиментов */
+}
+
+/* Адаптив для мобильных устройств */
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+        max-width: 100%;
+    }
+
+    h1 {
+        font-size: 2em; /* Уменьшаем заголовок */
+    }
+
+    .heart {
+        width: 150px;
+        height: 150px;
+    }
+
+    .heart:before,
+    .heart:after {
+        width: 150px;
+        height: 150px;
+    }
+
+    .heart:before {
+        top: -75px;
+    }
+
+    .heart:after {
+        left: 75px;
+    }
+
+    .question {
+        width: 150px;
+        top: 35%;
+        left: 65%;
+    }
+
+    .question span {
+        font-size: 1.1em;
+    }
+
+    .answer-input {
+        width: 120px;
+        font-size: 0.9em;
+    }
+
+    button {
+        font-size: 1em;
+        padding: 8px 16px;
+    }
+
+    .heart-container {
+        margin: 60px 0 40px; /* Уменьшаем маржины */
+    }
+
+    .compliment-card h2 {
+        font-size: 1.2em;
+    }
+
+    .compliment-content p {
+        font-size: 1em;
+    }
+
+    .cat {
+        /* Уменьшаем размеры котиков для мобильных */
+        transform: scale(0.7);
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <section id="page1" class="page active">
+            <h1>Нузно ответить на вопросы</h1>
+            <div class="heart-container">
+                <div class="heart">
+                    <div class="question">
+                        <span id="question-text">Что я люблю?</span>
+                        <input type="text" id="answer-input" class="answer-input" placeholder="Ваш ответ...">
+                    </div>
+                </div>
+            </div>
+            <button id="answer-button" onclick="answerQuestion()">Ответить</button>
+        </section>
+
+        
+        <section id="page2" class="page">
+            <h1>Мои сладкие сны с котиками</h1>
+            <div class="cats">
+                <div class="cat cat1"></div>
+                <div class="cat cat2"></div>
+                <div class="cat cat3"></div>
+            </div>
+            <div class="compliments">
+                <div class="compliment-card" onclick="toggleCompliment(this)">
+                    <h2>Сто для для вас</h2>
+                    <div class="compliment-content">
+                        <p>Ти моя муза ❤️</p>
+                    </div>
+                </div>
+                <div class="compliment-card" onclick="toggleCompliment(this)">
+                    <h2>Сто для для вас</h2>
+                    <div class="compliment-content">
+                        <p>Спасибо, что ти творишь невероятные чудеса</p>
+                    </div>
+                </div>
+                <div class="compliment-card" onclick="toggleCompliment(this)">
+                    <h2>Сто для для вас</h2>
+                    <div class="compliment-content">
+                        <p>Спасибо, сто ты у меня есть</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        
+const questions = [
+    "Какие у меня глаза?",
+    "Где первый раз мы гуляли?(Название)",
+    "Что мне хочется, когда мы лежим вместе?(на букву В)",
+];
+
+const validationKeywords = [
+    ["зеленые", "серые"], 
+    ["канал", "обводный","обводной", "обводный канал", "канал обводный", "обводной канал", "канал обводной"], 
+    ["вошкать", "вошкаться"], 
+    ["мечтать", "мирах", "волшебных"], 
+    ["объятия", "уют", "теплые"] 
+];
+
+let currentQuestion = 0;
+const questionText = document.getElementById('question-text');
+const answerInput = document.getElementById('answer-input');
+const answerButton = document.getElementById('answer-button');
+const heart = document.querySelector('.heart');
+let answers = []; 
+
+
+questionText.innerText = questions[currentQuestion];
+
+
+answerInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        answerQuestion();
+    }
+});
+
+
+function answerQuestion() {
+    const answer = answerInput.value.trim().toLowerCase();
+    if (answer === '') return; 
+
+    
+    const keywords = validationKeywords[currentQuestion];
+    const isValid = keywords.some(keyword => answer.includes(keyword.toLowerCase()));
+
+    if (!isValid) {
+        
+        answerInput.classList.add('invalid');
+        heart.classList.add('shake');
+        setTimeout(() => {
+            heart.classList.remove('shake');
+        }, 500); 
+        return;
+    }
+
+    
+    answerInput.classList.remove('invalid');
+
+    
+    answers.push({ question: questions[currentQuestion], answer });
+    console.log('Ответ сохранён:', answers[answers.length - 1]);
+
+    
+    answerInput.value = '';
+
+    currentQuestion++;
+    if (currentQuestion < questions.length) {
+        
+        questionText.style.opacity = 0;
+        setTimeout(() => {
+            questionText.innerText = questions[currentQuestion];
+            questionText.style.opacity = 1;
+        }, 500);
+    } else {
+        // После всех вопросов — плавный переход на следующую страницу
+        document.getElementById('page1').style.opacity = 0;
+        setTimeout(() => {
+            document.getElementById('page1').classList.remove('active');
+            const page2 = document.getElementById('page2');
+            page2.style.opacity = 0; // Начать с opacity 0 для fade-in
+            page2.classList.add('active');
+            setTimeout(() => {
+                page2.style.opacity = 1; // Плавно появиться
+            }, 100); // Небольшая задержка для запуска transition
+        }, 1000); // Ждём fade out page1
+    }
+}
+
+// Функция для toggle комплиментов
+function toggleCompliment(card) {
+    const content = card.querySelector('.compliment-content');
+    content.classList.toggle('open');
+}
+    </script>
+</body>
+</html>
